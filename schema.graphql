@@ -1,0 +1,25 @@
+type Query {
+  hello: String,
+  persons: [Person]
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Person {
+  age: Float,
+  luckLevel: LuckLevel
+  name: String
+  pageInfo: PageInfo
+}
+
+enum LuckLevel {
+  HIGH
+  LOW
+  MEDIUM
+  REALLYLOW
+}
