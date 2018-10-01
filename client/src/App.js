@@ -1,53 +1,52 @@
 import React, { Component } from "react";
-import ApolloClient from "apollo-boost";
 import gql from "graphql-tag";
 
 import logo from "./logo.svg";
 import ApolloPiece from "./ApolloPiece";
 import "./App.css";
 
-const client = new ApolloClient({
-  uri: "/graphql"
-});
+// const client = new ApolloClient({
+//   uri: "/graphql"
+// });
 
-async function get(url = "/api") {
-  try {
-    const data = await fetch(url, {
-      headers: { "Content-Type": "application/json" },
-      method: "GET"
-    });
-
-    const parsedData = await data.json();
-    return parsedData;
-  } catch (e) {
-    console.log("oh dear!");
-    return null;
-  }
-}
+// async function get(url = "/api") {
+//   try {
+//     const data = await fetch(url, {
+//       headers: { "Content-Type": "application/json" },
+//       method: "GET"
+//     });
+//
+//     const parsedData = await data.json();
+//     return parsedData;
+//   } catch (e) {
+//     console.log("oh dear!");
+//     return null;
+//   }
+// }
 
 class App extends Component {
-  componentDidMount() {
-    console.log("oh hey there");
-    this.getData();
-    client
-      .query({
-        query: gql`
-          {
-            hello
-            persons {
-              luckLevel
-              name
-              age
-            }
-          }
-        `
-      })
-      .then(result => console.log("apollo", result));
-  }
-
-  async getData() {
-    console.log(await get());
-  }
+  // componentDidMount() {
+  //   console.log("oh hey there");
+  //   this.getData();
+  //   client
+  //     .query({
+  //       query: gql`
+  //         {
+  //           hello
+  //           persons {
+  //             luckLevel
+  //             name
+  //             age
+  //           }
+  //         }
+  //       `
+  //     })
+  //     .then(result => console.log("apollo", result));
+  // }
+  //
+  // async getData() {
+  //   console.log(await get());
+  // }
 
   render() {
     return (
@@ -59,7 +58,13 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <ApolloPiece />
+        <ApolloPiece queryInfo="luckLevel">
+          <p>poop</p>
+        </ApolloPiece>
+        <ApolloPiece queryInfo="name">
+          <ApolloPiece bG="name age luckLevel" />
+        </ApolloPiece>
+        <ApolloPiece queryInfo="age" />
       </div>
     );
   }

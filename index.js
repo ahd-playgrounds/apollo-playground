@@ -3,31 +3,14 @@ const path = require("path");
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 
+const resolvers = require("./resolvers");
+
 const typeDefs = fs.readFileSync(
   path.join(__dirname, "schema.graphql"),
   "utf8"
 );
 
 const app = express();
-
-// A map of functions which return data for the schema.
-const resolvers = {
-  Query: {
-    hello: () => "world",
-    persons: () =>
-      new Promise(res => {
-        setTimeout(() => {
-          res([
-            {
-              name: "dave",
-              age: 23,
-              luckLevel: "HIGH"
-            }
-          ]);
-        }, 1000);
-      })
-  }
-};
 
 const server = new ApolloServer({
   typeDefs,
@@ -41,8 +24,16 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app });
 
-app.use("/api", (req, res) => {
-  res.json({ hell: "nice" });
+app.use("/api/users", (req, res) => {
+  res.json({
+    data: [
+      {
+        userId: "1234",
+        userName: "Bill",
+        userAge: "Age"
+      }
+    ]
+  });
 });
 
 app.use(
@@ -55,9 +46,8 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(`${__dirname}/client/build/index.html`));
 });
 
-app.use("*", req => {
+app.get("/*", req => {
   console.log(req.path);
-  throw new Error("poop");
 });
 
 app.listen({ port: 4000 }, () =>

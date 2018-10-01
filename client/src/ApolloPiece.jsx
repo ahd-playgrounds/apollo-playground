@@ -2,15 +2,14 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
-export default () => (
+export default ({ bG, queryInfo, children }) => (
   <Query
     query={gql`
       {
         hello
-        persons {
-          luckLevel
-          name
-          age
+        persons { # array
+          ${queryInfo ? queryInfo: ''}
+          ${bG ? bG : ''}
         }
       }
     `}
@@ -19,9 +18,13 @@ export default () => (
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
 
-      return data.persons.map(({ name, age }) => (
+      const { persons = {} } = data || {};
+
+      return persons.map(({ name, age, luckLevel }) => (
         <div key={name}>
-          <p>{`${name} is ${age}`}</p>
+          <p>{`${name} is ${age}: luckLevel = ${luckLevel}`}</p>
+          <p>----------</p>
+          {children}
         </div>
       ));
     }}
