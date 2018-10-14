@@ -1,6 +1,7 @@
 type Query {
-  hello: String,
-  persons: [Person]
+  whoami(id: ID!): Customer
+  persons(id: ID!): [Person]
+  something: String
 }
 
 type PageInfo {
@@ -10,8 +11,14 @@ type PageInfo {
   endCursor: String
 }
 
+type Customer {
+  id: ID
+  name: String
+}
+
 type Person {
-  age: Float,
+  id: ID
+  age: Float
   luckLevel: LuckLevel
   name: String
   pageInfo: PageInfo
