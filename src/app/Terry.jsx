@@ -5,6 +5,7 @@ import gql from "graphql-tag";
 export default function Terry(props) {
   return (
     <Query
+      variables={{ idPersons: "1234", user_token: "890" }}
       query={gql`
         query ExtraQuery($idPersons: ID!, $user_token: ID!) {
           whoami(id: $user_token) {
@@ -18,17 +19,15 @@ export default function Terry(props) {
           something
         }
       `}
-      variables={{ idPersons: "1234", user_token: "890" }}
     >
       {({ loading, error, data }) => {
         if (loading) return <p>Loading...</p>;
         if (error) {
-          debugger
+          console.log(error);
           return <p>Error :(</p>;
         }
 
         const { persons = [], whoami = {} } = data || {};
-        console.log(data)
 
         return persons.map(({ name, age, luckLevel }) => (
           <div key={name}>
