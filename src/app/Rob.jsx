@@ -10,6 +10,9 @@ export default function Rob() {
       variables={{ idPersons: "1234", user_token: "890" }}
       query={gql`
         query MainQuery($idPersons: ID!, $user_token: ID!) {
+          cms @client {
+            data
+          }
           whoami(id: $user_token) {
             id
             name
@@ -30,11 +33,12 @@ export default function Rob() {
           return <p>Error :(</p>;
         }
 
-        const { persons = {} } = data || {};
+        const { persons = [] } = data || {};
 
         return persons.map(({ name, age, luckLevel }) => (
           <div key={name}>
             <p>{`${name} is ${age}: luckLevel = ${luckLevel}`}</p>
+            <p>content: {JSON.stringify(data.cms, null, 2)}</p>
             <p>----------</p>
             <Hider show={false}>
               <Terry />

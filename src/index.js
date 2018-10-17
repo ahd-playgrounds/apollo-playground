@@ -17,6 +17,9 @@ const cache = new InMemoryCache({
   cacheRedirects: {
     Query: {
       // only useful for resolver kyes not matching __typname
+      cms: (_, args, { getCacheKey }) => {
+        return { data: "hi" };
+      },
       whoami: (_, args, { getCacheKey }) => {
         console.log("looking in cache key: ", args);
         return getCacheKey({ __typename: "Customer", id: args.id });
@@ -25,9 +28,26 @@ const cache = new InMemoryCache({
   }
 });
 
+function slowFunc(ms = 1000) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const stateLink = withClientState({
   cache,
-  resolvers: {} //needed
+  resolvers: {
+    Query: {
+      cms: async (_, args, arg2) => {
+        await slowFunc();
+        return {
+          __typename: "Data",
+          data: {
+            moreData: "hi",
+            moreData2: [{ nested: 4 }]
+          }
+        };
+      }
+    }
+  }
 });
 
 const client = new ApolloClient({
