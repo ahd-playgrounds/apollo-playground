@@ -17,9 +17,6 @@ const cache = new InMemoryCache({
   cacheRedirects: {
     Query: {
       // only useful for resolver kyes not matching __typname
-      cms: (_, args, { getCacheKey }) => {
-        return { data: "hi" };
-      },
       whoami: (_, args, { getCacheKey }) => {
         console.log("looking in cache key: ", args);
         return getCacheKey({ __typename: "Customer", id: args.id });
@@ -28,23 +25,25 @@ const cache = new InMemoryCache({
   }
 });
 
-function slowFunc(ms = 1000) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 const stateLink = withClientState({
   cache,
   resolvers: {
     Query: {
       cms: async (_, args, arg2) => {
-        await slowFunc();
-        return {
-          __typename: "Data",
-          data: {
-            moreData: "hi",
-            moreData2: [{ nested: 4 }]
-          }
-        };
+        try {
+          const load = await fetch("/api/content");
+          const messyData = await load.json();
+
+          const data = messyData; // tidy as much as needs be
+          return {
+            __typename: "Data",
+            data // key matches query and that seems to be it
+          };
+        } catch (e) {
+          console.error(e);
+          return null; // return null so the rest of the query is fine
+          throw e; // or throw to surface
+        }
       }
     }
   }
