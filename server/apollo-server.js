@@ -4,7 +4,10 @@ const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const resolvers = require("./resolver");
 
-const typeDefs = fs.readFileSync(path.join(__dirname, "schema.graphql"), "utf8");
+const typeDefs = fs.readFileSync(
+  path.join(__dirname, "schema.graphql"),
+  "utf8"
+);
 
 const app = express();
 
