@@ -2,6 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
+console.log('added to terry');
 export default function Terry(props) {
   return (
     <Query
