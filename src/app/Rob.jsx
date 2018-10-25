@@ -4,6 +4,8 @@ import gql from "graphql-tag";
 import Hider from "./Hider";
 import Terry from "./Terry";
 
+console.log('added missing message');
+console.log('added something');
 export default function Rob() {
   return (
     <Query
