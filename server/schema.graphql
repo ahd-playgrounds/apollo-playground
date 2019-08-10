@@ -1,7 +1,7 @@
 type Query {
   whoami(id: ID!): Customer
   persons(id: ID!): [Person]
-  something: String
+  something(arg: String!): Int!
 }
 
 type PageInfo {

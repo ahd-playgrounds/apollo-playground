@@ -1,17 +1,11 @@
 // A map of functions which return data for the schema.
-const resolvers = {
+export default {
   Query: {
-    something: () => "random string",
+    something: () => ({ butter: 'foo' }),
     whoami: () =>
       new Promise(res => {
         setTimeout(() => {
-          console.log(
-            "doing heavy lifting for whoami - i never want to see this twice"
-          );
-          res({
-            id: "890",
-            name: "Bob"
-          });
+          res({ name: 'steve' })
         }, 1000);
       }),
     persons: () =>
@@ -29,5 +23,3 @@ const resolvers = {
       })
   }
 };
-
-module.exports = resolvers;
