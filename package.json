@@ -7,10 +7,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "nodemon --inspect --ignore src/ -e js,graphql server/apollo-server.js",
+    "server": "nodemon --inspect --ignore dist/ -e js,graphql dist/apollo-server.js",
     "lint:all": "eslint --fix --ignore-pattern 'node_modules/' .",
     "lint:schema": "npx graphql-schema-linter schema.graphql",
-    "graph": "graphql-codegen --config codegen.yml"
+    "preserver": "tsc"
   },
   "proxy": "http://localhost:4000/",
   "graphql-schema-linter": {
@@ -38,6 +38,8 @@
     "react-apollo": "^2.1.11",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.5",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^0.17.4",
     "typescript": "^3.5.3"
   },
   "devDependencies": {
